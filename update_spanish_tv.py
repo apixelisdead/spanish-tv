@@ -15,6 +15,23 @@ IPTVSPAIN = "https://raw.githubusercontent.com/vk496/IPTVspain/master/spain.m3u8
 EPG = "https://dearbulut.github.io/iptv/epg/es.xml.gz"
 OUTPUT = Path(__file__).with_name("Spanish-TV.m3u")
 
+# Two channels were missing by ID/name in both indexed sources, but their
+# current public streams were confirmed separately:
+# TVE Internacional Europe-Asia is published by RTVE/iptv-org, and El País is
+# currently listed by Free-TV/IPTV. These are fallback-only entries.
+MANUAL_FALLBACKS = {
+    "TVE Internacional": (
+        '#EXTINF:-1 tvg-id="TVEInternacionalEuropeAsia.es" '
+        'tvg-chno="10" tvg-country="ES" group-title="Spain",TVE Internacional',
+        "https://rtvelivestream-rtveplayplus.rtve.es/rtvesec/int/tvei_eu_main_1080.m3u8",
+    ),
+    "El País": (
+        '#EXTINF:-1 tvg-id="ElPaisTV.es" tvg-chno="22" '
+        'tvg-country="ES" group-title="Spain",El País',
+        "https://d2epgk1fomaa1g.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-9n8y4tw0bk3an/live/fast-channel-el-pais/fast-channel-el-pais.m3u8",
+    ),
+}
+
 CHANNELS = [
     ("La 1", ["La1.es"], ["La 1", "LA 1"]),
     ("La 2", ["La2.es"], ["La 2", "LA 2"]),
@@ -136,6 +153,12 @@ for source_name, source_url in all_sources:
         if canonical not in matches:
             matches[canonical] = entry
             source_used[canonical] = source_name
+
+# Last-resort fallbacks for the two channels absent from both indexed playlists.
+for canonical, entry in MANUAL_FALLBACKS.items():
+    if canonical not in matches:
+        matches[canonical] = entry
+        source_used[canonical] = "manual fallback"
 
 missing = [canonical for canonical, _ids, _names in CHANNELS if canonical not in matches]
 
