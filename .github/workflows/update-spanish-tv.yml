@@ -25,19 +25,19 @@ jobs:
         run: python update_spanish_tv.py
 
       - name: Commit updated playlist
-  run: |
-    git config user.name "github-actions[bot]"
-    git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-    git add Spanish-TV.m3u
+          git add Spanish-TV.m3u
 
-    if git diff --cached --quiet; then
-      echo "No playlist changes."
-      exit 0
-    fi
+          if git diff --cached --quiet; then
+            echo "No playlist changes."
+            exit 0
+          fi
 
-    git commit -m "Update Spanish TV playlist"
+          git commit -m "Update Spanish TV playlist"
 
-    git pull --rebase origin main
+          git pull --rebase origin main
 
-    git push origin HEAD:main
+          git push origin HEAD:main
