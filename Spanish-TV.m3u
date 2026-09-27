@@ -1,0 +1,29 @@
+#EXTM3U x-tvg-url="https://epgshare01.online/epgshare01/epg_ripper_ES1.xml.gz"
+#EXTINF:-1 tvg-logo="https://i.imgur.com/NbesiPn.png" tvg-country="ES" group-title="Spain" tvg-chno="1" tvg-name="La 1" tvg-id="La.1.es",La 1
+https://rtvelivestream.rtve.es/rtvesec/la1/la1_main_dvr.m3u8
+#EXTINF:-1 tvg-logo="https://i.imgur.com/DmuTwDw.png" tvg-country="ES" group-title="Spain" tvg-chno="2" tvg-name="La 2" tvg-id="La.2.es",La 2
+https://rtvelivestream.rtve.es/rtvesec/la2/la2_main_dvr.m3u8
+#EXTINF:-1 tvg-country="ES" group-title="Spain" tvg-chno="3" tvg-name="24 Horas" tvg-id="Canal.24.horas.es",24 Horas
+https://ztnr.rtve.es/ztnr/1694255.m3u8
+#EXTINF:-1 tvg-country="ES" group-title="Spain" tvg-chno="4" tvg-name="Teledeporte" tvg-id="Teledeporte.es",Teledeporte
+https://rtve01p.origin.c21livecloud.com/live-origin/tdp-hls/bitrate_1.m3u8
+#EXTINF:-1 tvg-logo="https://i.imgur.com/ow1HArj.png" tvg-country="ES" group-title="Spain" tvg-chno="5" tvg-name="TVE Internacional",TVE Internacional
+https://rtvelivestream-rtveplayplus.rtve.es/rtvesec/int/tvei_eu_main_dvr_1080.m3u8
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Paramount_Network.svg/500px-Paramount_Network.svg.png" tvg-country="ES" group-title="Spain" tvg-chno="6" tvg-name="Paramount Network" tvg-id="Paramount.Network.es",Paramount Network
+https://jmp2.uk/plu-68d566603d3a9580eb461251.m3u8
+#EXTINF:-1 tvg-logo="https://raw.githubusercontent.com/tv-logo/tv-logos/refs/heads/main/countries/international/euro-news-int.png" tvg-country="ES" group-title="Spain" tvg-chno="7" tvg-name="Euronews" tvg-id="Euronews.es",Euronews
+https://euronews-live-spa-es.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-LiveChannel-6571/bitok/eyJzdGlkIjoiMDA0YjY0NTMtYjY2MC00ZTZkLTlkNzEtMTk3YTM3ZDZhZWIxIiwibWt0IjoiZXMiLCJjaCI6NjU3MSwicHRmIjoxfQ==/26034/euronews-es.m3u8
+#EXTINF:-1 tvg-logo="https://graph.facebook.com/elpais/picture?width=200&height=200" tvg-country="ES" group-title="Spain" tvg-chno="8" tvg-name="El País" tvg-id="El.País.es",El País
+https://d2epgk1fomaa1g.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-9n8y4tw0bk3an/live/fast-channel-el-pais/fast-channel-el-pais.m3u8
+#EXTINF:-1 tvg-logo="https://i.imgur.com/WcVOXPr.png" tvg-country="ES" group-title="Spain" tvg-chno="9" tvg-name="Canal Sur Andalucía" tvg-id="Canal.Sur.Andalucía.es",Canal Sur Andalucía
+https://d4oe4cnrgi9c9.cloudfront.net/master.m3u8
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/TV3CAT.svg/500px-TV3CAT.svg.png" tvg-country="ES" group-title="Spain" tvg-chno="10" tvg-name="TV3Cat" tvg-id="TV3CAT.es",TV3Cat
+https://directes3-tv-int.3catdirectes.cat/live-content/tvi-hls/master.m3u8
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/ETB1_2022_logo.svg/500px-ETB1_2022_logo.svg.png" tvg-country="ES" group-title="Spain" tvg-chno="11" tvg-name="ETB1" tvg-id="ETB1.es",ETB1
+https://multimedia.eitb.eus/live-content/etb1hd-hls/master.m3u8
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/ETB2_2022_logo.svg/500px-ETB2_2022_logo.svg.png" tvg-country="ES" group-title="Spain" tvg-chno="12" tvg-name="ETB2" tvg-id="ETB2.es",ETB2
+https://multimedia.eitb.eus/live-content/etb2hd-hls/master.m3u8
+#EXTINF:-1 tvg-logo="https://i.imgur.com/xBeywIA.png" tvg-country="ES" group-title="Spain" tvg-chno="13" tvg-name="Canal Extremadura" tvg-id="Canal.Extremadura.TV.es",Canal Extremadura
+https://d2ymuyhevki1a1.cloudfront.net/wct-ddd2992e-86fc-4611-a491-7f392259e9ba/continuous/9be76611-d2cd-474d-bf19-ef702ba31b02/index.m3u8
+#EXTINF:-1 tvg-country="ES" group-title="Spain" tvg-chno="14" tvg-name="Canal 3",Canal 3
+https://avantstreaming.es/hls/canal3.m3u8
