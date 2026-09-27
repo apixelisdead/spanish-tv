@@ -17,6 +17,8 @@ http://cdn1tlinkgo.tlink.cl/24horashd/mono.m3u8
 https://rtve01p.origin.c21livecloud.com/live-origin/tdp-hls/bitrate_1.m3u8
 #EXTINF:-1 tvg-id="Clan.es" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Clan_2026.svg/960px-Clan_2026.svg.png" tvg-country="ES" tvg-language="spa" group-title="Kids" nexus-score="100" tvg-chno="9" tvg-name="Clan",Clan
 https://lge-lgla2.otteravision.com/lge/lgcla/lgcla.m3u8
+#EXTINF:-1 tvg-id="TVEInternacionalEuropeAsia.es" tvg-country="ES" group-title="Spain" tvg-chno="10" tvg-name="TVE Internacional",TVE Internacional
+https://rtvelivestream-rtveplayplus.rtve.es/rtvesec/int/tvei_eu_main_1080.m3u8
 #EXTINF:-1 group-title="Nacional" tvg-id="Neox" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Neox.svg/320px-Neox.svg.png" url-epg="https://raw.githubusercontent.com/vk496/IPTVspain/master/guide.xml" tvg-chno="11" tvg-name="Neox",Neox
 https://livestartover.atresmedia.com/geoneox/master.m3u8
 #EXTINF:-1 tvg-id="Nova.rs" tvg-logo="https://i.imgur.com/sU8UPPY.png" tvg-country="RS" tvg-language="srp" group-title="General" nexus-score="92" tvg-chno="12" tvg-name="Nova",Nova
@@ -39,6 +41,8 @@ https://pastebin.com/raw/afgk7wAC
 http://4.30.180.36:8420/paramount/index.m3u8?token=test
 #EXTINF:-1 tvg-id="Euronews.pl" tvg-logo="https://images-2.rakuten.tv/storage/global-live-channel/translation/artwork/bc84c3b7-6008-4ee3-8f6a-e4bb4365f082-width200-quality90.jpeg" tvg-country="PL" tvg-language="pol" group-title="News" nexus-score="100" tvg-chno="21" tvg-name="Euronews",Euronews
 https://cdn-euronews.akamaized.net/live/eds/euronews-pl/26382/index.m3u8
+#EXTINF:-1 tvg-id="ElPaisTV.es" tvg-country="ES" group-title="Spain" tvg-chno="22" tvg-name="El País",El País
+https://d2epgk1fomaa1g.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-9n8y4tw0bk3an/live/fast-channel-el-pais/fast-channel-el-pais.m3u8
 #EXTINF:-1 tvg-id="Telemadrid.es" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/TeleMadrid.svg/960px-TeleMadrid.svg.png" tvg-country="ES" tvg-language="spa" group-title="Undefined" nexus-score="100" tvg-chno="23" tvg-name="Telemadrid",Telemadrid
 https://live.telemadrid.cross-media.es/6389770581112/eu-central-1/6416060453001/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJob3N0IjoiajI5YjgyLmVncmVzcy5haGc3NmwiLCJhY2NvdW50X2lkIjoiNjQxNjA2MDQ1MzAwMSIsImVobiI6ImxpdmUudGVsZW1hZHJpZC5jcm9zcy1tZWRpYS5lcyIsImlzcyI6ImJsaXZlLXBsYXliYWNrLXNvdXJjZS1hcGkiLCJzdWIiOiJwYXRobWFwdG9rZW4iLCJhdWQiOlsiNjQxNjA2MDQ1MzAwMSJdLCJqdGkiOiI2Mzg5NzcwNTgxMTEyIn0.kqriAMUkHT6m0V6wkCHJum_EUyL4PAi1zJMKlfmYHEU/playlist-hls.m3u8
 #EXTINF:-1 tvg-id="CanalSur.es" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Canal_Sur_Televisi%C3%B3n_2011-2017_logo.svg/960px-Canal_Sur_Televisi%C3%B3n_2011-2017_logo.svg.png" tvg-country="ES" tvg-language="spa" group-title="General" nexus-score="0" tvg-chno="24" tvg-name="Canal Sur Andalucía",Canal Sur Andalucía
