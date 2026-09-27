@@ -3,134 +3,174 @@ import unicodedata
 import urllib.request
 from pathlib import Path
 
-SOURCE = "https://dearbulut.github.io/iptv/playlists/country/es.m3u"
+# Source 1: Dearbulut "Best" playlist.
+# It contains one best-ranked stream per channel and is refreshed from
+# Dearbulut's health-checked dataset.
+DEARBULUT = "https://dearbulut.github.io/iptv/playlists/best.m3u"
+
+# Source 2: IPTVspain public TDT playlist.
+# Used as a fallback when Dearbulut does not currently have the channel.
+IPTVSPAIN = "https://raw.githubusercontent.com/vk496/IPTVspain/master/spain.m3u8"
+
 EPG = "https://dearbulut.github.io/iptv/epg/es.xml.gz"
 OUTPUT = Path(__file__).with_name("Spanish-TV.m3u")
 
-# Keep the same curated 30-channel lineup, in the order we want
-# CH+/CH- to move through the channels.
 CHANNELS = [
-    ("La 1", ["La 1", "La 1 (HD)"]),
-    ("La 2", ["La 2", "La 2 (HD)"]),
-    ("Antena 3", ["Antena 3", "Antena 3 (HD)"]),
-    ("Cuatro", ["Cuatro", "Cuatro (HD)"]),
-    ("Telecinco", ["Telecinco", "Telecinco (HD)"]),
-    ("La Sexta", ["La Sexta", "La Sexta (HD)"]),
-    ("24h", ["24h", "24 Horas", "24 Horas (HD)"]),
-    ("Teledeporte", ["Teledeporte", "tdp", "Teledeporte (HD)"]),
-    ("Clan", ["Clan", "Clan TVE"]),
-    ("TVE Internacional", [
-        "TVE Internacional",
-        "TVE Internacional Europe-Asia",
-        "TVE Internacional Europa-Asia",
+    ("La 1", ["La1.es"], ["La 1", "LA 1"]),
+    ("La 2", ["La2.es"], ["La 2", "LA 2"]),
+    ("Antena 3", ["Antena3.es"], ["Antena 3", "ANTENA 3"]),
+    ("Cuatro", ["Cuatro.es"], ["Cuatro", "CUATRO"]),
+    ("Telecinco", ["Telecinco.es"], ["Telecinco", "TELECINCO"]),
+    ("La Sexta", ["LaSexta.es"], ["La Sexta", "LA SEXTA"]),
+    ("24 Horas", ["24Horas.es", "24h.es"], ["24 Horas", "24h", "CANAL 24 HORAS"]),
+    ("Teledeporte", ["Teledeporte.es", "tdp.es"], ["Teledeporte", "tdp", "TDP"]),
+    ("Clan", ["Clan.es", "clan.es"], ["Clan", "CLAN"]),
+    ("TVE Internacional", ["TVEInternacionalEuropeAsia.es"], [
+        "TVE Internacional", "TVE Internacional Europe-Asia",
+        "TVE Internacional Europa-Asia"
     ]),
-    ("Neox", ["Neox"]),
-    ("Nova", ["Nova"]),
-    ("Atreseries", ["Atreseries"]),
-    ("Mega", ["Mega"]),
-    ("FDF", ["FDF", "Factoría de Ficción"]),
-    ("Divinity", ["Divinity"]),
-    ("Energy", ["Energy"]),
-    ("Be Mad", ["Be Mad", "BEMAD"]),
-    ("Boing", ["Boing"]),
-    ("Paramount Network", ["Paramount Network", "Paramount Channel"]),
-    ("Euronews", ["Euronews", "euronews"]),
-    ("El País", ["El País", "El Pais"]),
-    ("Telemadrid", ["Telemadrid"]),
-    ("Canal Sur Andalucía", ["Canal Sur Andalucía", "Canal Sur"]),
-    ("TV3Cat", ["TV3Cat", "TV3", "TV3 CAT"]),
-    ("Aragón TV", ["Aragón TV", "Aragon TV"]),
-    ("ETB1", ["ETB1"]),
-    ("ETB2", ["ETB2"]),
-    ("À Punt TV", ["À Punt TV", "A Punt TV", "À Punt"]),
-    ("Canal Extremadura", ["Canal Extremadura"]),
+    ("Neox", ["Neox.es"], ["Neox", "NEOX"]),
+    ("Nova", ["Nova.es"], ["Nova", "NOVA"]),
+    ("Atreseries", ["Atreseries.es"], ["Atreseries", "ATRESERIES"]),
+    ("Mega", ["Mega.es"], ["Mega", "MEGA"]),
+    ("FDF", ["FactoriadeFiccion.es"], ["FDF", "Factoría de Ficción", "Factoria de Ficcion"]),
+    ("Divinity", ["Divinity.es"], ["Divinity", "DIVINITY"]),
+    ("Energy", ["Energy.es"], ["Energy", "ENERGY"]),
+    ("Be Mad", ["BeMad.es"], ["Be Mad", "BE MAD", "BEMAD"]),
+    ("Boing", ["Boing.es"], ["Boing", "BOING"]),
+    ("Squirrel 2", ["Squirrel2.es", "ParamountNetwork.es"], ["Squirrel 2", "Squirrel2", "Paramount Network", "Paramount Channel"]),
+    ("Euronews", ["Euronews.es"], ["Euronews", "euronews"]),
+    ("El País", ["ElPaisTV.es"], ["El País", "El Pais", "El País TV"]),
+    ("Telemadrid", ["Telemadrid.es"], ["Telemadrid"]),
+    ("Canal Sur Andalucía", ["CanalSurAndalucia.es"], ["Canal Sur Andalucía", "Canal Sur"]),
+    ("TV3Cat", ["TV3CAT.es"], ["TV3Cat", "TV3 CAT", "TV3"]),
+    ("Aragón TV", ["AragonTV.es"], ["Aragón TV", "Aragon TV"]),
+    ("ETB1", ["ETB1.es"], ["ETB1"]),
+    ("ETB2", ["ETB2.es"], ["ETB2"]),
+    ("À Punt TV", ["APunt.es"], ["À Punt TV", "A Punt TV", "À Punt", "A Punt"]),
+    ("Canal Extremadura", ["CanalExtremadura.es", "CanalExtremaduraSatelite.es"], [
+        "Canal Extremadura", "Canal Extremadura Satélite", "Canal Extremadura Sat"
+    ]),
 ]
 
 def norm(value: str) -> str:
-    value = unicodedata.normalize("NFKD", value)
+    value = unicodedata.normalize("NFKD", value or "")
     value = "".join(c for c in value if not unicodedata.combining(c))
     value = value.lower().strip()
-    value = re.sub(r"[\u24b6-\u24e9]", "", value)
+    value = re.sub(r"[\(\)\[\]\{\}]", " ", value)
+    value = re.sub(r"\b(hd|fhd|uhd|4k|sd|hevc|satellite|satelite)\b", " ", value)
     value = re.sub(r"[^a-z0-9]+", " ", value)
-    value = re.sub(r"\b(fallback|hd|fhd|uhd|4k)\b", " ", value)
     return re.sub(r"\s+", " ", value).strip()
 
-wanted = {}
-for canonical, aliases in CHANNELS:
-    for alias in aliases:
-        wanted.setdefault(norm(alias), canonical)
+id_to_canonical = {}
+name_to_canonical = {}
 
-request = urllib.request.Request(
-    SOURCE,
-    headers={"User-Agent": "Spanish-TV-playlist-updater/1.0"}
-)
-data = urllib.request.urlopen(request, timeout=30).read().decode("utf-8-sig")
-lines = [x.strip() for x in data.splitlines() if x.strip()]
+for canonical, ids, names in CHANNELS:
+    for channel_id in ids:
+        id_to_canonical[channel_id.lower()] = canonical
+    for name in names:
+        name_to_canonical[norm(name)] = canonical
+
+def download(url):
+    req = urllib.request.Request(
+        url,
+        headers={"User-Agent": "Spanish-TV-playlist-updater/2.0"}
+    )
+    return urllib.request.urlopen(req, timeout=30).read().decode("utf-8-sig")
+
+def parse_m3u(data):
+    lines = [x.strip() for x in data.splitlines() if x.strip()]
+    found = {}
+
+    for i, line in enumerate(lines):
+        if not line.startswith("#EXTINF:") or i + 1 >= len(lines):
+            continue
+
+        url = lines[i + 1]
+        if not url or url.startswith("#"):
+            continue
+
+        tvg_id = re.search(r'tvg-id="([^"]+)"', line)
+        tvg_name = re.search(r'tvg-name="([^"]+)"', line)
+        display_name = line.split(",", 1)[1] if "," in line else ""
+
+        canonical = None
+
+        # First use exact tvg-id because that's the most reliable identifier.
+        if tvg_id:
+            canonical = id_to_canonical.get(tvg_id.group(1).strip().lower())
+
+        # Then fall back to normalized names.
+        if canonical is None:
+            for candidate in (
+                tvg_name.group(1) if tvg_name else "",
+                display_name,
+            ):
+                n = norm(candidate)
+                if n in name_to_canonical:
+                    canonical = name_to_canonical[n]
+                    break
+
+        if canonical and canonical not in found:
+            found[canonical] = (line, url)
+
+    return found
+
+all_sources = [
+    ("Dearbulut best", DEARBULUT),
+    ("IPTVspain", IPTVSPAIN),
+]
 
 matches = {}
-for i, line in enumerate(lines):
-    if not line.startswith("#EXTINF:") or i + 1 >= len(lines):
-        continue
+source_used = {}
 
-    url = lines[i + 1]
-    if not url or url.startswith("#"):
-        continue
+for source_name, source_url in all_sources:
+    print(f"Downloading {source_name}: {source_url}")
+    data = download(source_url)
+    source_matches = parse_m3u(data)
 
-    m_name = re.search(r'tvg-name="([^"]*)"', line)
-    tvg_name = m_name.group(1) if m_name else ""
-    display_name = line.split(",", 1)[1] if "," in line else ""
+    print(f"  matched {len(source_matches)} requested channels")
 
-    candidates = [tvg_name, display_name]
-    canonical = None
-    for candidate in candidates:
-        n = norm(candidate)
-        if n in wanted:
-            canonical = wanted[n]
-            break
+    for canonical, entry in source_matches.items():
+        # Dearbulut gets priority because its playlist is health-ranked.
+        if canonical not in matches:
+            matches[canonical] = entry
+            source_used[canonical] = source_name
 
-    if canonical and canonical not in matches:
-        matches[canonical] = (line, url)
+missing = [canonical for canonical, _ids, _names in CHANNELS if canonical not in matches]
 
-missing = [canonical for canonical, _ in CHANNELS if canonical not in matches]
+print()
+print(f"Total available across both sources: {len(matches)}/{len(CHANNELS)}")
+for canonical, _, _ in CHANNELS:
+    if canonical in matches:
+        print(f"  OK   {canonical:<24} [{source_used[canonical]}]")
+    else:
+        print(f"  MISS {canonical}")
 
-print(f"Source: {SOURCE}")
-print(f"Found {len(matches)} of {len(CHANNELS)} requested channels.")
-if missing:
-    print("Missing:", ", ".join(missing))
-
-# Refuse to overwrite the working playlist if the upstream source changes
-# unexpectedly and fewer than 25 of our requested channels are available.
-if len(matches) < 25:
+# Do not destroy a good playlist because an upstream source had a temporary
+# outage. Require at least 20 of our 30 channels.
+if len(matches) < 20:
     raise RuntimeError(
-        f"Only {len(matches)} channels matched; refusing to replace playlist."
+        f"Only {len(matches)} channels were found across both sources; "
+        "refusing to replace the existing playlist."
     )
 
 out = [f'#EXTM3U x-tvg-url="{EPG}"']
 
-for number, (canonical, _) in enumerate(CHANNELS, start=1):
+for number, (canonical, _, _) in enumerate(CHANNELS, start=1):
     if canonical not in matches:
         continue
 
     extinf, url = matches[canonical]
 
-    # Preserve the upstream tvg-id/logo/group metadata, but give our
-    # curated playlist a predictable 1..30 channel order.
-    extinf = re.sub(r'\s+tvg-chno="[^"]*"', "", extinf)
-    extinf = re.sub(r'\s+tvg-name="[^"]*"', "", extinf)
+    # Rewrite only the parts we control; retain logo/tvg-id/group metadata.
+    prefix = extinf.split(",", 1)[0]
+    prefix = re.sub(r'\s+tvg-chno="[^"]*"', "", prefix)
+    prefix = re.sub(r'\s+tvg-name="[^"]*"', "", prefix)
+    display = canonical
 
-    if "," in extinf:
-        prefix = extinf.split(",", 1)[0]
-        extinf = f'{prefix} tvg-name="{canonical}",{canonical}'
-    else:
-        extinf = f'{extinf},${canonical}'
-
-    if "," in extinf:
-        prefix = extinf.split(",", 1)[0]
-        extinf = f'{prefix} tvg-chno="{number}",{canonical}'
-    else:
-        extinf = f'{extinf} tvg-chno="{number}",{canonical}'
-
+    extinf = f'{prefix} tvg-chno="{number}" tvg-name="{canonical}",{display}'
     out.extend([extinf, url])
 
 OUTPUT.write_text("\n".join(out) + "\n", encoding="utf-8")
-print(f"Wrote {OUTPUT} with {len(matches)} channels.")
+print(f"\nWrote {OUTPUT} with {len(matches)} channels.")
